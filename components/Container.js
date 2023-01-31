@@ -8,7 +8,6 @@ export default {
     template: /* html */ `
     <div :class="[
         block + this.name,
-        type === 'align-right' ? block + this.name + '_align-right' : '',
         type === 'position-relative' ? block + this.name + '_position-relative' : ''
     ]">
         <slot></slot>

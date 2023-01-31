@@ -22,6 +22,16 @@ document.querySelector('.background').addEventListener('mousemove', function (ev
 
 const contactManager = new ContactManager();
 
+contactManager.addContact('Борис');
+contactManager.addContact('Аня');
+contactManager.addContact('Елена');
+contactManager.getContact('Борис').addField('+333333333', 'phone');
+contactManager.getContact('Борис').addField('sbjknb', 'telegram');
+// contactManager.getContact('Boris').deleteField('sbjknb');
+contactManager.getContact('Аня').addField('kjvsvnsldkvn', 'vk');
+contactManager.getContact('Елена').addField('hjhvkv@kjvhvhv.kh', 'email');
+contactManager.getContact('Елена').addField('пр. Седова, д. 1/1', 'address');
+
 createApp({
     data() {
         return {
@@ -31,8 +41,34 @@ createApp({
                 initial: true,
                 search: false,
                 result: false
-            }
+            },
+            searchQuery: ''
         };
+    },
+
+    computed: {
+        filteredContacts() {
+            return this.contactManager.allContacts.filter(contact => {
+                return contact.name.toLowerCase()
+                    .includes(this.searchQuery.toLowerCase());
+            });
+        },
+        canAddContact() {
+            const names = this.filteredContacts.map(contact => contact.name)
+            return this.searchQuery && (
+                !this.filteredContacts.length ||
+                !names.includes(this.searchQuery)
+                )
+        }
+    },
+
+    watch: {
+        searchQuery() {
+            if (this.state.search) {
+                this.state.result = !!this.searchQuery
+                    && !!this.filteredContacts.length;
+            }
+        }
     },
 
     components: {
@@ -44,24 +80,32 @@ createApp({
 
     methods: {
         gotoInitial() {
-            this.state = {
+            Object.assign(this.state, {
                 initial: true,
                 search: false,
                 result: false
-            };
+            });
         },
-        gotoSearch() {
-            this.state = {
+        searchContacts() {
+            Object.assign(this.state, {
                 initial: false,
                 search: true,
                 result: false
-            }
+            });
         },
         showAll() {
-            this.state = {
+            Object.assign(this.state, {
                 initial: false,
                 search: false,
-                result: true
+                result: true && !!this.contactManager.allContacts.length
+            });
+        },
+        addContact(name, event = null) {
+            if (!event || event.key === 'Enter') {
+                if (event?.key === 'Enter') event.preventDefault();
+                this.searchQuery = '';
+                this.contactManager.addContact(name);
+                this.showAll();
             }
         }
     },
@@ -69,31 +113,28 @@ createApp({
     template: /* html */ `
     <form :class="this.blockName">
         <container
-            v-if="!this.state.initial"
-            :block="this.blockName"
-            type="align-right"
+        :block="this.blockName"
         >
             <form-button
-                value="В начало"
-                :block="this.blockName"
-                @click.prevent="gotoInitial"
-            ></form-button>
-        </container>
-        <container
-            v-if="this.state.initial"
-            :block="this.blockName"
-        >
-            <form-button
-                value="Искать"
+                v-if="!this.state.search"
+                :value="this.state.initial ? 'Искать или добавить' : 'Искать'"
                 :block="this.blockName"
                 type="margin-right"
-                @click.prevent="gotoSearch"
-            ></form-button>
+                @click.prevent="searchContacts"
+            />
             <form-button
+                v-if="!this.state.result"
                 value="Посмотреть все"
                 :block="this.blockName"
+                type="margin-right"
                 @click.prevent="showAll"
-            ></form-button>
+            />
+            <form-button
+                v-if="!this.state.initial"
+                value="<i class='fa-solid fa-arrow-left'></i>&nbsp;В начало"
+                :block="this.blockName"
+                @click.prevent="gotoInitial"
+            />
         </container>
         <container
             v-if="this.state.search"
@@ -103,17 +144,25 @@ createApp({
             <form-input
                 placeholderValue="Введите имя"
                 :block="this.blockName"
-            ></form-input>
+                :modelValue="searchQuery"
+                @update:modelValue="newValue => searchQuery = newValue"
+                @keydown="addContact(searchQuery, $event)"
+            />
             <form-button
+                v-if="canAddContact"
                 value="Добавить"
                 :block="this.blockName"
                 type="position-absolute"
-            ></form-button>
+                @click.prevent="addContact(searchQuery)"
+            />
         </container>
         </form>
     <result
         v-if="this.state.result"
         :block="this.blockName"
-    ></result>
+        :contacts="filteredContacts"
+        :contactManager="contactManager"
+        @contactDeleted="showAll"
+    />
     `
 }).mount('#app');

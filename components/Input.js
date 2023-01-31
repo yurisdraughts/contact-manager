@@ -1,6 +1,12 @@
 export default {
-    props: ['block', 'placeholderValue'],
+    props: ['block', 'placeholderValue', 'modelValue'],
+    emits: ['update:modelValue'],
     template: /* html */ `
-    <input :class="block + '__input'" :placeholder="placeholderValue">
+    <input
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        :class="block + '__input'"
+        :placeholder="placeholderValue"
+    >
     `
 }
