@@ -1,4 +1,7 @@
+@use 'sass:color';
+
 $button-font-size: 16px;
+$dark-color: #262626;
 
 @mixin rounded-form-element($scale: 1) {
     border: none;
@@ -8,13 +11,25 @@ $button-font-size: 16px;
     font-size: $button-font-size * $scale;
 }
 
+@mixin color($element: "") {
+    @if ($element == "button") {
+        background-color: var(--dark);
+        color: var(--light);
+    }
+
+    @else {
+        background-color: var(--light);
+        color: var(--dark);
+    }
+}
+
 :root {
     --light-blue-backup: rgb(204, 238, 255);
     --light-blue: rgba(204, 238, 255, 1);
     --light-purple: rgba(230, 213, 236, 1);
     --pink: rgba(255, 188, 217, 1);
 
-    --dark: #262626;
+    --dark: #{$dark-color};
     --light: #f5f5f5;
 
     --red: #dc2626;
@@ -49,7 +64,7 @@ body {
     // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cceeff", endColorstr="#ffbcd9", GradientType=1);
 }
 
-.form {
+.contact-manager {
     width: 90vw;
 
     @media (min-width: 800px) {
@@ -57,20 +72,56 @@ body {
         max-width: 500px;
     }
 
-    &__form-element-container {
+    &__element-container {
         padding: 0.5 * $button-font-size 0;
+
+        &_align-right {
+            display: flex;
+
+            :first-child {
+                margin-left: auto;
+            }
+        }
+
+        &_position-relative {
+            position: relative;
+        }
     }
 
     &__button {
         @include rounded-form-element();
-        background-color: var(--dark);
-        color: var(--light);
+        @include color("button");
         text-transform: uppercase;
         transition: background-color var(--transition-duration);
+
+        &_margin-right {
+            margin-right: $button-font-size;
+        }
+
+        &_position-absolute {
+            position: absolute;
+            right: 0.5 * $button-font-size;
+            top: 50%;
+            transform: translateY(-50%);
+        }
     }
 
     &__input {
         @include rounded-form-element(1.5);
-        max-width: 90vw;
+        @include color("input");
+        width: 100%;
+
+        ::placeholder {
+            color: color.change($dark-color, $alpha: 0.5);
+        }
+    }
+
+    &__result {
+        @include rounded-form-element(2);
+        margin-top: 0.5 * $button-font-size;
+        min-height: fit-content;
+        max-height: 50vh;
+        overflow-y: auto;
+        @include color();
     }
 }
