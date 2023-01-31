@@ -1,3 +1,13 @@
+$button-font-size: 16px;
+
+@mixin rounded-form-element($scale: 1) {
+    border: none;
+    border-radius: 2 * $button-font-size * $scale;
+    padding: 0.5 * $button-font-size * $scale;
+    height: 2 * $button-font-size * $scale;
+    font-size: $button-font-size * $scale;
+}
+
 :root {
     --light-blue-backup: rgb(204, 238, 255);
     --light-blue: rgba(204, 238, 255, 1);
@@ -19,7 +29,6 @@
 }
 
 body {
-    font-size: 10px;
     font-family: sans-serif;
     color: var(--dark);
 }
@@ -38,4 +47,30 @@ body {
     background: -webkit-linear-gradient(-45deg, var(--light-blue) 0%, var(--light-purple) var(--middle-point), var(--pink) 100%);
     background: linear-gradient(-45deg, var(--light-blue) 0%, var(--light-purple) var(--middle-point), var(--pink) 100%);
     // filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cceeff", endColorstr="#ffbcd9", GradientType=1);
+}
+
+.form {
+    width: 90vw;
+
+    @media (min-width: 800px) {
+        width: 50vw;
+        max-width: 500px;
+    }
+
+    &__form-element-container {
+        padding: 0.5 * $button-font-size 0;
+    }
+
+    &__button {
+        @include rounded-form-element();
+        background-color: var(--dark);
+        color: var(--light);
+        text-transform: uppercase;
+        transition: background-color var(--transition-duration);
+    }
+
+    &__input {
+        @include rounded-form-element(1.5);
+        max-width: 90vw;
+    }
 }
