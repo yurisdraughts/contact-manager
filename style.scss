@@ -1,7 +1,7 @@
 @use 'sass:color';
 
 $button-font-size: 18px;
-$breakpoint: 800px;
+$breakpoint: 992px;
 
 @mixin rounded-form-element($scale: 1) {
     border: none;
@@ -92,14 +92,24 @@ a {
     width: 90vw;
 
     @media (min-width: $breakpoint) {
-        width: 50vw;
-        max-width: 500px;
+        width: 70vw;
     }
 }
 
 .contact-manager {
     &__element-container {
         padding: 0.5 * $button-font-size 0;
+
+        &_buttons {
+            display: flex;
+            flex-direction: column;
+
+
+            &>* {
+                margin-bottom: $button-font-size;
+                width: 100%;
+            }
+        }
 
         &_align-right {
             position: absolute;
@@ -109,6 +119,15 @@ a {
         &_position-relative {
             position: relative;
         }
+
+        @media (min-width: $breakpoint) {
+            display: block;
+
+            * {
+                width: fit-content;
+                margin-bottom: 0;
+            }
+        }
     }
 
     &__button {
@@ -117,8 +136,11 @@ a {
         text-transform: uppercase;
         transition: background-color var(--transition-duration);
 
-        &:hover,
-        &:focus {
+        i {
+            display: inline;
+        }
+
+        &:hover {
             background-color: var(--blue);
         }
 
@@ -144,8 +166,42 @@ a {
         }
 
         &_add-field {
-            align-self: end;
             background-color: var(--green);
+
+            &_small,
+            &_close_small {
+                position: absolute;
+                scale: 0.65;
+            }
+
+            &_small {
+                right: 1.5 * $button-font-size;
+                background-color: var(--green);
+            }
+
+            &_close_small {
+                right: 0;
+            }
+
+            &_close,
+            &_close_small {
+                background-color: var(--red);
+                aspect-ratio: 1/1;
+            }
+
+            &_address,
+            &_phone,
+            &_email,
+            &_telegram,
+            &_vk {
+                background-color: var(--green);
+                margin-right: 0.5 * $button-font-size;
+            }
+
+            &_address,
+            &_close {
+                aspect-ratio: 1/1;
+            }
         }
     }
 
@@ -160,6 +216,11 @@ a {
 
         &:focus::placeholder {
             opacity: 0;
+        }
+
+        &_add-field {
+            height: 2 * $button-font-size;
+            border: 3px solid var(--dark);
         }
     }
 
@@ -231,5 +292,11 @@ a {
         align-items: center;
         justify-content: space-between;
         padding: 0.3 * $button-font-size;
+    }
+
+    &__contact-add-field-buttons-container {
+        position: relative;
+        display: flex;
+        justify-content: end;
     }
 }

@@ -11,7 +11,15 @@ export default {
                 this.type === 'position-absolute' ||
                 this.type === 'delete-contact' ||
                 this.type === 'delete-field' ||
-                this.type === 'add-field'
+                this.type === 'add-field' ||
+                this.type === 'add-field_address' ||
+                this.type === 'add-field_phone' ||
+                this.type === 'add-field_email' ||
+                this.type === 'add-field_telegram' ||
+                this.type === 'add-field_vk' ||
+                this.type === 'add-field_close' ||
+                this.type === 'add-field_close_small' ||
+                this.type === 'add-field_small'
             ) {
                 return `${this.block}${this.name}_${this.type}`;
             }

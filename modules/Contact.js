@@ -3,19 +3,19 @@ import { Field } from './Fields.js'
 export class Contact {
     constructor(name) {
         this.name = name;
-        this.fields = {};
+        this.fields = [];
         this.created = Date.now();
     }
 
     addField(value, fieldClassName = Field.className) {
         const FieldClass = Field.allFieldClasses.get(fieldClassName);
-        this.fields[FieldClass.name] = new FieldClass(value);
+        this.fields.push(new FieldClass(value));
     }
 
     deleteField(value) {
-        for(let key of Object.keys(this.fields)) {
-            if (this.fields[key].value === value) {
-                delete this.fields[key];
+        for (let i = 0; i < this.fields.length; i++) {
+            if (this.fields[i].value === value) {
+                this.fields.splice(i, 1);
                 return;
             }
         }

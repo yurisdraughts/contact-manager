@@ -46,15 +46,22 @@ a:visited {
 #app {
   width: 90vw;
 }
-@media (min-width: 800px) {
+@media (min-width: 992px) {
   #app {
-    width: 50vw;
-    max-width: 500px;
+    width: 70vw;
   }
 }
 
 .contact-manager__element-container {
   padding: 9px 0;
+}
+.contact-manager__element-container_buttons {
+  display: flex;
+  flex-direction: column;
+}
+.contact-manager__element-container_buttons > * {
+  margin-bottom: 18px;
+  width: 100%;
 }
 .contact-manager__element-container_align-right {
   position: absolute;
@@ -62,6 +69,15 @@ a:visited {
 }
 .contact-manager__element-container_position-relative {
   position: relative;
+}
+@media (min-width: 992px) {
+  .contact-manager__element-container {
+    display: block;
+  }
+  .contact-manager__element-container * {
+    width: fit-content;
+    margin-bottom: 0;
+  }
 }
 .contact-manager__button {
   border: none;
@@ -75,7 +91,10 @@ a:visited {
   text-transform: uppercase;
   transition: background-color var(--transition-duration);
 }
-.contact-manager__button:hover, .contact-manager__button:focus {
+.contact-manager__button i {
+  display: inline;
+}
+.contact-manager__button:hover {
   background-color: var(--blue);
 }
 .contact-manager__button_margin-right {
@@ -94,8 +113,29 @@ a:visited {
   background-color: var(--red);
 }
 .contact-manager__button_add-field {
-  align-self: end;
   background-color: var(--green);
+}
+.contact-manager__button_add-field_small, .contact-manager__button_add-field_close_small {
+  position: absolute;
+  scale: 0.65;
+}
+.contact-manager__button_add-field_small {
+  right: 27px;
+  background-color: var(--green);
+}
+.contact-manager__button_add-field_close_small {
+  right: 0;
+}
+.contact-manager__button_add-field_close, .contact-manager__button_add-field_close_small {
+  background-color: var(--red);
+  aspect-ratio: 1/1;
+}
+.contact-manager__button_add-field_address, .contact-manager__button_add-field_phone, .contact-manager__button_add-field_email, .contact-manager__button_add-field_telegram, .contact-manager__button_add-field_vk {
+  background-color: var(--green);
+  margin-right: 9px;
+}
+.contact-manager__button_add-field_address, .contact-manager__button_add-field_close {
+  aspect-ratio: 1/1;
 }
 .contact-manager__input {
   border: none;
@@ -113,6 +153,10 @@ a:visited {
 }
 .contact-manager__input:focus::placeholder {
   opacity: 0;
+}
+.contact-manager__input_add-field {
+  height: 36px;
+  border: 3px solid var(--dark);
 }
 .contact-manager__result {
   border: none;
@@ -140,7 +184,7 @@ a:visited {
   margin-bottom: 0;
   padding-bottom: 0;
 }
-@media (min-width: 800px) {
+@media (min-width: 992px) {
   .contact-manager__contact {
     grid-template-columns: 3fr 5fr;
     align-items: center;
@@ -159,7 +203,7 @@ a:visited {
 .contact-manager__contact-name:last-child {
   margin-bottom: 0;
 }
-@media (min-width: 800px) {
+@media (min-width: 992px) {
   .contact-manager__contact-name {
     margin-bottom: 0;
   }
@@ -179,6 +223,11 @@ a:visited {
   align-items: center;
   justify-content: space-between;
   padding: 5.4px;
+}
+.contact-manager__contact-add-field-buttons-container {
+  position: relative;
+  display: flex;
+  justify-content: end;
 }
 
 /*# sourceMappingURL=style.css.map */
