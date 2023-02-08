@@ -3,11 +3,10 @@ export class Field {
         this.value = value;
     }
 
-    static {
-        this.allFieldClasses = new Map();
-        this.allFieldClasses.set('field', this);
-    }
+    static allFieldClasses = new Map();
 }
+
+Field.allFieldClasses.set('field', Field);
 
 class URLField extends Field {
     _linkStart;
@@ -19,36 +18,23 @@ class URLField extends Field {
     hasLink = true;
 }
 
-class Address extends Field {
-    static {
-        super.allFieldClasses.set('address', this);
-    }
-}
+class Address extends Field { }
+Field.allFieldClasses.set('address', Address);
 
-class Phone extends Field {
-    static {
-        super.allFieldClasses.set('phone', this);
-    }
-}
+class Phone extends Field { }
+Field.allFieldClasses.set('phone', Phone);
 
-class Email extends Field {
-    static {
-        super.allFieldClasses.set('email', this);
-    }
-}
+class Email extends Field { }
+Field.allFieldClasses.set('email', Email);
 
 class Telegram extends URLField {
-    static {
-        super.allFieldClasses.set('telegram', this);
-    }
-
     _linkStart = 'https://t.me/';
 }
 
-class VK extends URLField {
-    static {
-        super.allFieldClasses.set('vk', this);
-    }
+Field.allFieldClasses.set('telegram', Telegram);
 
+class VK extends URLField {
     _linkStart = 'https://vk.com/';
 }
+
+Field.allFieldClasses.set('vk', VK);
